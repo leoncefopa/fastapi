@@ -12,7 +12,7 @@ router = APIRouter(
 
 
 # Retrieve all posts
-@router.get('/', response_model=List[schemas.PostVoteOutput])
+@router.get('', response_model=List[schemas.PostVoteOutput])
 def get_posts(db: Session = Depends(get_db),
               limit: int = 10, skip: int = 0, search: Optional[str] = '',
               current_user: int = Depends(oauth2.get_current_user)):
@@ -57,7 +57,7 @@ def get_post_by_id(post_id: int, db: Session = Depends(get_db), current_user: in
 
 
 # Create a post
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.PostBaseOutput)
+@router.post('', status_code=status.HTTP_201_CREATED, response_model=schemas.PostBaseOutput)
 def create_posts(payload: schemas.PostCreate, db: Session = Depends(get_db),
                  current_user: int = Depends(oauth2.get_current_user)):
     input_payload = payload.dict()
@@ -70,7 +70,7 @@ def create_posts(payload: schemas.PostCreate, db: Session = Depends(get_db),
 
 
 # Updating a post
-@router.put("/{post_id}", response_model=schemas.PostBaseOutput)
+@router.put('/{post_id}', response_model=schemas.PostBaseOutput)
 def update_posts(post_id: int, payload: schemas.PostCreate, db: Session = Depends(get_db),
                  current_user: int = Depends(oauth2.get_current_user)):
     query_instance = db.query(models.PostServerData).filter(models.PostServerData.id == post_id)
@@ -92,7 +92,7 @@ def update_posts(post_id: int, payload: schemas.PostCreate, db: Session = Depend
 
 
 # Delete a post
-@router.delete("/{post_id}")
+@router.delete('/{post_id}')
 def delete_post(post_id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     query_instance = db.query(models.PostServerData).filter(models.PostServerData.id == post_id)
     post = query_instance.first()

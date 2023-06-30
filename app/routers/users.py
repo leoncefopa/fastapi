@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOutput)
+@router.post('', status_code=status.HTTP_201_CREATED, response_model=schemas.UserOutput)
 def create_user(user_payload: schemas.UserDefault, db: Session = Depends(get_db)):
     # Hashing the password
     hashed_password = utils.hashing(user_payload.password)
@@ -23,7 +23,7 @@ def create_user(user_payload: schemas.UserDefault, db: Session = Depends(get_db)
     return new_user
 
 
-@router.get("/{user_id}", response_model=schemas.UserOutput)
+@router.get('/{user_id}', response_model=schemas.UserOutput)
 def get_posts(user_id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.user_id == user_id).first()
     if user is None:
