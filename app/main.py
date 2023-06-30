@@ -28,5 +28,7 @@ app.include_router(posts.router)
 app.include_router(users.router)
 app.include_router(votes.router)
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+
+@app.get('/')
+def root():
+    return {'message': 'Welcome to fastapi tutorial !!'}
