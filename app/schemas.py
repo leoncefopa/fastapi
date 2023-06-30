@@ -9,6 +9,7 @@ from pydantic import BaseModel, EmailStr, conint
 class UserDefault(BaseModel):
     email: EmailStr
     password: str
+    phone_number: Optional[str] = None
 
 
 class UserOutput(BaseModel):
