@@ -1,0 +1,36 @@
+version: '3'
+services:
+    api:
+        build: .
+        command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+        ports:
+            - "8000:8000" # <port on localhost>:<port on container>
+#        env_file:
+#            - ./.env
+        environment:
+            - DB_HOST=postgres          # resolves to postgres config below
+            - DB_PORT=5432
+            - DB_NAME=fastapi
+            - DB_PASSWORD=Naruto_09
+            - DB_USERNAME=postgres
+            - SECRET_KEY=3561befc6939caa59c77af177069e62d79a39236629cc77205c485280c874372
+            - ALGORITHM=HS256
+            - ACCESS_TOKEN_EXPIRE_MINUTES=60
+        depends_on:
+            - postgres
+        volumes:
+            - ./:/usr/src/app:ro        # binding our pwd to container pwd to sync files update in 'ro' read-only mode
+    
+    postgres:
+        image: postgres:15.3
+        environment:
+            - POSTGRES_PASSWORD=Naruto_09
+            - POSTGRES_DB=fastapi
+        volumes:
+            - postgres-db:/var/lib/postgresql/data
+
+volumes:
+    postgres-db:
+
+networks:
+    app-network:
