@@ -1,5 +1,5 @@
 [Unit]
-Description=gunicorn instance to server api
+Description=demo fastapi application ubuntu server gunicorn instance
 After=network.target
 
 [Service]
@@ -7,6 +7,7 @@ User=lfopa
 Group=lfopa
 WorkingDirectory=/home/lfopa/app/src
 Environment="PATH=/home/lfopa/app/venv/bin"
+EnvironmentFile=/home/lfopa/.env
 ExecStart=/home/lfopa/app/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
 
 [Install]
